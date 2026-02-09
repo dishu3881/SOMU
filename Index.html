@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Somu</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffeef8;
+            overflow: hidden;
+        }
+
+        #card {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #gif-container {
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #gif-container img {
+            max-height: 100%;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #ff4d94;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            min-height: 60px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d94;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #bdc3c7;
+            color: white;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+<div id="card">
+    <div id="gif-container">
+        <img id="mainGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIycG93ZXE0Ym96MmR3Z3E0N2Yxd2p2Znd6bmZ6Znd6bmZ6Znd6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Funny Cat">
+    </div>
+    <h1 id="questionText">Can I ask you something?</h1>
+    <div class="btn-container">
+        <button id="yesBtn">Yes</button>
+        <button id="noBtn">No</button>
+    </div>
+</div>
+
+<script>
+    // List of GIFs to match the questions
+    const gifs = [
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXN6emR0bm1ueXh5NHR3eHh5NHR3eHh5NHR3eHh5NHR3eHh5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/c76IJLufpNUMvULn6L/giphy.gif", // Cat begging
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWV6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif", // Cat Love
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWV6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKMGpxas9d9L8zK/giphy.gif", // Thinking
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWV6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ICOgUNoMPvG0g/giphy.gif", // Excited
+        "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWV6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6bmZ6Znd6biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/K77qP27U3V0M8/giphy.gif"  // Happy Dance
+    ];
+
+    const questions = [
+        "Will you be my Somu always?",
+        "I love you so much. Do you also love me?",
+        "Will you be free this coming weekend?",
+        "Can we meet this coming weekend?",
+        "Yay! I'll text you the details! and Thanks for the rose ❤️"
+    ];
+
+    let currentIdx = 0;
+    const questionText = document.getElementById('questionText');
+    const mainGif = document.getElementById('mainGif');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+
+    noBtn.addEventListener('mouseover', () => {
+        const maxX = window.innerWidth - noBtn.offsetWidth;
+        const maxY = window.innerHeight - noBtn.offsetHeight;
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        noBtn.style.left = randomX + 'px';
+        noBtn.style.top = randomY + 'px';
+    });
+
+    yesBtn.addEventListener('click', () => {
+        if (currentIdx < questions.length) {
+            // Update Text
+            questionText.innerText = questions[currentIdx];
+            
+            // Update GIF
+            mainGif.src = gifs[currentIdx];
+            
+            // If it's the final message, hide the buttons
+            if (currentIdx === questions.length - 1) {
+                yesBtn.style.display = 'none';
+                noBtn.style.display = 'none';
+            }
+            
+            currentIdx++;
+        }
+    });
+</script>
+
+</body>
+</html>
